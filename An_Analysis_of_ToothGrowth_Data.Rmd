@@ -1,0 +1,23 @@
+---
+title: "An Analysis of ToothGrowth Data"
+author: "Luke Coughlin"
+date: "5/29/2020"
+output: 
+        pdf_document:
+                keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Synposis  
+
+## Load Data  
+
+## Summary and Distribution  
+
+## Hypothesis Tests  
+
+## Conclusions  
+
