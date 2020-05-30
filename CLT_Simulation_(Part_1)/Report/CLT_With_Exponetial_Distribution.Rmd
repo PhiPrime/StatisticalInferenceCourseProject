@@ -1,0 +1,107 @@
+---
+title: "Does the Distribution of Means of 40 Exponentials Behave as Predicted by the Central Limit Theorem"
+author: "Luke Coughlin"
+fontsize: 11pt
+geometry: "top = 1cm"
+output: 
+        pdf_document:
+                keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Synposis  
+This simulation looks to test the central limit theroem on an exponential distribution. The central limit theroem states that the distribution of sample means of many large enough samples of a distribution will be approximately normal, even if the population is not normally distributed. This simulation upholds the central limit theorem by having a distribution of means that is approximately normal.  
+
+## Simulations  
+```{r Load_Libraries, message = FALSE}
+library(tidyverse); library(gridExtra)
+phi <- (1+sqrt(5))/2 #For dimensions
+```
+
+
+We'll now run 1000 simulations of 40 random variables from an exponential distribution to compare the distribution of the sample means and standard distributions later. We'll set the seed so the simulation is reproducible, arbitraily choosing to use the first phi-prime as our seed. After generating both sets of observations we'll store the means and standard deviations each simulation within our large collection of simulations.  
+```{r Simulation}
+set.seed(1618033)
+n <- 40
+sims <- 1000
+l <- 0.2 #lambda
+multipleObs <- matrix(rexp(n*sims, l), sims, n)
+means <- apply(multipleObs, 1, mean)
+sds <- apply(multipleObs, 1, sd)
+```
+
+
+## Sample Mean versus Theoretical Mean  
+The theoretical mean of an exponetial distribution is $\frac{1}{\lambda}$. In our simulation we set $\lambda =$ `r l`. As such the theoretical mean is $\mu_T$ = `r 1/l`. We'll now look at how the distribution of the sample means compares to $\mu_T$  
+```{r Histogram_of_Sample_Means, fig.height= 3, fig.width = 3*phi}
+muplot <- ggplot(data.frame(x = means), aes(x)) +
+        geom_histogram(binwidth = 0.2, aes(y = ..density..),
+                       fill = "#AA0000", colour = "#000000") +
+        labs(x = "Sample Mean", y = "Density") +
+        ggtitle("Distribution of Sample Means")
+muplot + geom_vline(xintercept = 1/l, lwd = 2, colour = "#5BC2E7") +
+        geom_vline(xintercept = mean(means), lwd = 2, colour = "#FF9E61")
+```
+  
+In this histogram of the means the blue line represents $\mu_T$, `r 1/l` and the orange line represents the mean of the sample means, `r round(mean(means), 2)`. This shows that the mean of `r sims` simulations of `r n` samples from an exponetial distribution closely resembles the true theoretical mean.  
+
+## Sample Variance versus Theoretical Variance  
+The theoretical mean of an exponetial distribution is $\frac{1}{\lambda}$. In our simulation we set $\lambda =$ `r l`. As such the theoretical mean is $\mu_T$ = `r 1/l`. We'll now look at how the distribution of the sample means compares to $\mu_T$  
+```{r Histogram_of_sds, fig.height= 3, fig.width = 3*phi}
+plot <- ggplot(data.frame(x = sds), aes(x)) +
+        geom_histogram(binwidth = 0.25, aes(y = ..density..),
+                       fill = "#AA0000", colour = "#000000") +
+        geom_vline(xintercept = 1/l, lwd = 2, colour = "#5BC2E7") +
+        geom_vline(xintercept = mean(sds), lwd = 2, colour = "#FF9E61") +
+        labs(x = "Sample Standard Deviation", y = "Density") +
+        ggtitle("Distribution of Sample Standard Deviations")
+plot
+```
+  
+In this histogram of the standard deviations the blue line represents $\sigma_T$, `r 1/l` and the orange line represents the mean of the standard deviations, `r round(mean(sds), 2)`. These values are so close that it reasonable to conclude the sample standard deviation accuratly represents the true standard deviation.
+
+There seems to be an outlier that's greater than 10, this is likely due to an anomoly in sampling the exponetial distribution. Let's look at that sample set now.  
+```{r Outlier_Row}
+multipleObs[sds > 10,]
+```
+It can be seen in this list that the large deviation likely came from having the large value, `r round(multipleObs[sds>10,2],3)`, in row `r which(sds>10)`'s data. Since this is a simulation there is no reason to discard this data point.  
+
+## Distribution  
+The final aspect we'll be looking at is how this distribution of means compares to a random distribution of many (`r sims`) samples from an exponential distribution.  
+```{r Exp_Dist}
+exsam <- rexp(sims,l)
+```
+```{r Plot_Densities, fig.height= 3, fig.width = 3*phi}
+explot <- ggplot(data.frame(x = exsam), aes(x))+ 
+        geom_density(lwd = 2) +
+        labs(x = "Value of Sample Data Points", y = "Density") +
+        ggtitle("Expontential Distribution")
+g1 <- explot +
+        geom_vline(xintercept = mean(exsam), 
+              colour = "#FF0000", lwd = 2) +
+        geom_vline(xintercept = median(exsam), 
+              colour = "#5BC2E7", lwd = 2)
+
+CLTplot <- ggplot(data.frame(x = means), aes(x)) + 
+        geom_density(lwd = 2) +
+        labs(x = "Sample Means", y = "Density") +
+        ggtitle("Sample Mean Distribution")
+g2 <- CLTplot +
+        geom_vline(xintercept = mean(means), 
+              colour = "#FF0000", lwd = 2) +
+        geom_vline(xintercept = median(means), 
+              colour = "#5BC2E7", lwd = 2)
+
+grid.arrange(g1, g2, ncol = 2)        
+```
+  
+In the above graphs the blue line represents the median and the red line is the mean of each respective data set. In the expontential distribution it can be seen the values are pretty far off (`r round(mean(exsam)-median(exsam), 1)`), indicating that the data is skewed right. On the contrary, the sample means have nearly overlapping means and medians, suggesting the data is approximately normal. This is what the central limit theroem proposes, that given a large enough sample size, the distribution of the sample means will be approximately normal. Therefore this simulation has upheld the central limit thereom.  
+
+
+
+
+
+
