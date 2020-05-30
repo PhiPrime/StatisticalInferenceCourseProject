@@ -1,0 +1,18 @@
+---
+title: "Appendix"
+author: "Luke Coughlin"
+date: "5/30/2020"
+geometry: "top=0cm"
+output: pdf_document
+---
+
+```{r setVars, echo = FALSE}
+phi <- (1+sqrt(5)/2)
+reportFile <- sub("Appendix", "Report", getwd())
+reportFile <- paste0(reportFile, "/", 
+                     grep(".Rmd$",dir(reportFile), value = TRUE))
+```
+
+```{r code=readLines(knitr::purl(reportFile, documentation = 1)), eval = TRUE, message = FALSE, fig.height= 3, fig.width = 3*phi}
+
+```
