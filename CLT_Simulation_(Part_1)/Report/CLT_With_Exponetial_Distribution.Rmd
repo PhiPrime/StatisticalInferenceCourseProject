@@ -42,11 +42,12 @@ muplot <- ggplot(data.frame(x = means), aes(x)) +
                        fill = "#AA0000", colour = "#000000") +
         labs(x = "Sample Mean", y = "Density") +
         ggtitle("Distribution of Sample Means")
-muplot + geom_vline(xintercept = 1/l, lwd = 2, colour = "#5BC2E7") +
-        geom_vline(xintercept = mean(means), lwd = 2, colour = "#FF9E61")
+muplot + geom_vline(xintercept = 1/l, lwd = 1.5, colour = "#5BC2E7") +
+        geom_vline(xintercept = mean(means), lwd = 1.5, colour = "#FF9E61") +
+        geom_vline(xintercept = median(means), lwd = 1.5, colour = "#00FF00")
 ```
   
-In this histogram of the means the blue line represents $\mu_T$, `r 1/l` and the orange line represents the mean of the sample means, `r round(mean(means), 2)`. This shows that the mean of `r sims` simulations of `r n` samples from an exponential distribution closely resembles the true theoretical mean.  
+In this histogram of the means the blue line represents $\mu_T$, `r 1/l`, the orange line represents the mean of the sample means, `r round(mean(means), 2)`, and the green line represents the sample's median, `r round(median(means), 2)`. This shows that the mean of `r sims` simulations of `r n` samples from an exponential distribution closely resembles the true theoretical mean. While the sample median and mean are close, an attribute of normally distributed data.  
 
 ## Sample Variance versus Theoretical Variance  
 The theoretical mean of an exponential distribution is $\frac{1}{\lambda}$. In our simulation we set $\lambda =$ `r l`. As such the theoretical standard deviation is $\sigma_T$ = `r 1/l`. We'll now look at how the distribution of the standard deviations compares to $\sigma_T$.  

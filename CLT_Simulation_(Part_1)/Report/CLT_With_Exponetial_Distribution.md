@@ -25,7 +25,7 @@ We'll now run 1000 simulations of 40 random variables from an exponential distri
 The theoretical mean of an exponential distribution is $\frac{1}{\lambda}$. In our simulation we set $\lambda =$ 0.2. As such the theoretical mean is $\mu_T$ = 5. We'll now look at how the distribution of the sample means compares to $\mu_T$  
 ![](CLT_With_Exponetial_Distribution_files/figure-latex/Histogram_of_Sample_Means-1.pdf)<!-- --> 
   
-In this histogram of the means the blue line represents $\mu_T$, 5 and the orange line represents the mean of the sample means, 5.1. This shows that the mean of 1000 simulations of 40 samples from an exponential distribution closely resembles the true theoretical mean.  
+In this histogram of the means the blue line represents $\mu_T$, 5, the orange line represents the mean of the sample means, 5.1, and the green line represents the sample's median, 5.05. This shows that the mean of 1000 simulations of 40 samples from an exponential distribution closely resembles the true theoretical mean. While the sample median and mean are close, an attribute of normally distributed data.  
 
 ## Sample Variance versus Theoretical Variance  
 The theoretical mean of an exponential distribution is $\frac{1}{\lambda}$. In our simulation we set $\lambda =$ 0.2. As such the theoretical standard deviation is $\sigma_T$ = 5. We'll now look at how the distribution of the standard deviations compares to $\sigma_T$.  

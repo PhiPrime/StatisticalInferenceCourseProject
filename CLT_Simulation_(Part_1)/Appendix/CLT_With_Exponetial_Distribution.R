@@ -23,8 +23,9 @@ muplot <- ggplot(data.frame(x = means), aes(x)) +
                        fill = "#AA0000", colour = "#000000") +
         labs(x = "Sample Mean", y = "Density") +
         ggtitle("Distribution of Sample Means")
-muplot + geom_vline(xintercept = 1/l, lwd = 2, colour = "#5BC2E7") +
-        geom_vline(xintercept = mean(means), lwd = 2, colour = "#FF9E61")
+muplot + geom_vline(xintercept = 1/l, lwd = 1.5, colour = "#5BC2E7") +
+        geom_vline(xintercept = mean(means), lwd = 1.5, colour = "#FF9E61") +
+        geom_vline(xintercept = median(means), lwd = 1.5, colour = "#00FF00")
 
 
 ## ----Histogram_of_sds, fig.height= 3, fig.width = 3*phi-----------------------
