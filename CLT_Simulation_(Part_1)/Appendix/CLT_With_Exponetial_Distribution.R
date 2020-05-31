@@ -49,7 +49,7 @@ exsam <- rexp(sims,l)
 explot <- ggplot(data.frame(x = exsam), aes(x))+ 
         geom_density(lwd = 2) +
         labs(x = "Value of Sample Data Points", y = "Density") +
-        ggtitle("Expontential Distribution")
+        ggtitle("Exponential Distribution")
 g1 <- explot +
         geom_vline(xintercept = mean(exsam), 
               colour = "#FF0000", lwd = 2) +
